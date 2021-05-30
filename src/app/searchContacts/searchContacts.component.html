@@ -1,0 +1,58 @@
+<form #searchForm='ngForm' (ngSubmit)="searchForm.form.valid && onSearchSubmit()" novalidate>
+    <div class="row">
+        <div class="col-md-2">
+            Search By :
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" id="rooms" [(ngModel)]="searchModel.searchBy" name="searchBy" #searchBy="ngModel" [ngClass]="{ 'is-invalid': searchForm.submitted && searchBy.invalid }"
+                (change)="searchTypeChange()" required>
+                <option *ngFor="let item of searchTypeList" [value]="item.id">{{item.value}}</option>
+        </select>
+            <span *ngIf="searchForm.submitted && searchBy.invalid" style="color: #a94442;">
+                <span *ngIf="searchBy.errors.required">Search Type is required</span>
+            </span>
+        </div>
+        <div class="col-md-3">
+            Enter Name / Contact Number:
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" [(ngModel)]="searchModel.searchText" name="searchText" #searchText="ngModel" searchTextValidator
+                [isNumber]="searchModel.searchBy" [ngClass]="{ 'is-invalid': searchForm.submitted && searchText.invalid }" required/>
+            <span *ngIf="searchForm.submitted && searchText.invalid" style="color: #a94442;">
+                <span *ngIf="searchText.errors.required">Search Text is required</span>
+            <span *ngIf="searchText.errors.searchIsNotNumber">Search should be a number</span>
+            <span *ngIf="searchText.errors.searchLengthError">Search should be 10 digits</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:45px;">
+        <div class="col-md-2 offset-md-6">
+            <input class="btn btn-default" (click)="getContactDetails()" type="submit" value="SUBMIT" />
+        </div>
+        <div class="col-md-2">
+            <input class="btn btn-default" type="button" value="CANCEL" (click)="resetForm()" />
+        </div>
+    </div>
+
+</form>
+
+<div *ngIf="noSearchRecords" style="margin-top:25px;font-size:30px;font-weight:bold;">
+    No Records Exist With Above Search...
+</div>
+<div *ngIf="searchListDetails.length > 0" style="margin-top:25px;">
+
+    <div class="row" style="margin-top:5px;background-color:red;width:550px;">
+
+        <div class="col-md-3">Phone Number </div>
+        <div class="col-md-2"> Name </div>
+        <div class="col-md-3"> Created Date </div>
+    </div>
+    <div class="row" style="margin-top:5px; width:550px;" *ngFor="let item of searchListDetails">
+
+        <div class="col-md-3">{{item.phoneNumber}} </div>
+        <div class="col-md-2"> {{item.name}} </div>
+        <div class="col-md-3"> {{item.createdDate}} </div>
+    </div>
+
+</div>

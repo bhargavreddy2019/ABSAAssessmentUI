@@ -1,0 +1,48 @@
+<form novalidate [formGroup]="addContactsForm" (ngSubmit)="onUnitsSubmit()">
+
+    <div class="row">
+        <div class="col-md-2">
+            Name :
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" formControlName="name" />
+            <span *ngIf="addContactsForm.controls['name'].invalid && (addContactsForm.controls['name'].dirty || addContactsForm.controls['name'].touched)"
+                style="color: #a94442;">
+                <span *ngIf="addContactsForm.controls['name'].errors.required">
+                    Name is required.
+                </span>
+            </span>
+        </div>
+        <div class="col-md-3">
+            Contact Number :
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control"  formControlName="contactNumber" />
+            <span *ngIf="addContactsForm.controls['contactNumber'].invalid && (addContactsForm.controls['contactNumber'].dirty || addContactsForm.controls['contactNumber'].touched)"
+                style="color: #a94442;">
+                <span *ngIf="addContactsForm.controls['contactNumber'].errors.required">
+                    Contact Number is required.
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:45px;">
+        <div class="col-md-2 offset-md-6">
+            <input class="btn btn-default" [disabled]="addContactsForm.pristine || addContactsForm.invalid" type="submit" value="SUBMIT"
+            />
+        </div>
+        <div class="col-md-2">
+            <input class="btn btn-default" type="button" value="CANCEL" (click)="resetForm()" />
+        </div>
+    </div>
+
+</form>
+
+<div *ngIf="sucessResponse" style="margin-top:25px;font-size:25px;font-weight:bold;">
+  Phone Number {{addContactsForm.controls['contactNumber'].value}}  Added sucessfully to Phone Book...
+</div>
+
+<div *ngIf="errorResponse" style="margin-top:25px;font-size:25px;font-weight:bold;">
+    Problem in saving  Phone Number {{addContactsForm.controls['contactNumber'].value}}
+</div>
